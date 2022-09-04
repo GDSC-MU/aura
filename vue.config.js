@@ -7,7 +7,7 @@ module.exports = {
   ],
   productionSourceMap: false,
   pwa: {
-    name: 'Aura Main',
+    name: 'GDSC Mansoura',
     workboxPluginMode: 'InjectManifest',
     themeColor: '#4A90E2',
     msTileColor: '#4A90E2',
@@ -20,5 +20,5 @@ module.exports = {
       swSrc: './src/sw.js',
       swDest: 'service-worker.js',
     },
-  }
+  },
 }
