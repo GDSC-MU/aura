@@ -1,17 +1,17 @@
 <template>
     <v-content class="px-0 mx-1">
-        <v-container fluid class="pa-0">
+      <v-container fluid class="pa-0">
              <v-row justify="center" align="center" class="py-3" :class="this.$vuetify.theme.dark == true?'grey darken-4':'grey lighten-4'" >
                 <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 bottom-space"  >
-                  <TeamHeader :data="CoreTeam" />
+                  <TeamHeader :data="lead" />
                 </v-col>
              </v-row>
         </v-container>
 
         <v-container fluid class="pa-0">
              <v-row justify="center" align="center" class="py-3" :class="this.$vuetify.theme.dark == true?'black':''">
-                <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 card-top-margin" v-if="CoreTeam.length>0"  >
-                  <CoreTeam :data="CoreTeam"/>
+                <v-col md="12" lg="10" sm="11" xs="12" class="lead-wrapper pt-3 card-top-margin" v-if="Leads.length>0"  >
+                  <CoreTeam :data="Leads"/>
                 </v-col>
                 <v-col v-if="loader" md="12" lg="10" xs="12" class="pt-3 card-top-margin"  >
                   <v-container fluid class="">
@@ -33,7 +33,72 @@
                 </v-col>
              </v-row>
         </v-container>
+        <v-container fluid class="pa-0">
+             <v-row justify="center" align="center" class="py-3"  >
+                <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 bottom-space"  >
+                  <TeamHeader :data="current" />
+                </v-col>
+             </v-row>
+        </v-container>
 
+        <v-container fluid class="pa-0">
+             <v-row justify="center" align="center" class="py-3" :class="this.$vuetify.theme.dark == true?'black':''">
+                <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 card-top-margin" v-if="CoreTeamCurrent.length>0"  >
+                  <CoreTeam :data="CoreTeamCurrent"/>
+                </v-col>
+                <v-col v-if="loader" md="12" lg="10" xs="12" class="pt-3 card-top-margin"  >
+                  <v-container fluid class="">
+                      <v-row >
+                          <v-col md="2" lg="2" sm="3" cols="6" v-for="i in 6" :key="i">
+                                <v-sheet
+                                    :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+                                    class=""
+                                >
+                                    <v-skeleton-loader
+                                    class="mx-auto"
+                                    max-width="300"
+                                    type="card"
+                                    ></v-skeleton-loader>
+                                </v-sheet>
+                            </v-col>
+                      </v-row>
+                  </v-container>
+                </v-col>
+             </v-row>
+        </v-container>
+        <v-container fluid class="pa-0">
+             <v-row justify="center" align="center" class="py-3"  >
+                <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 bottom-space"  >
+                  <TeamHeader :data="previous" />
+                </v-col>
+             </v-row>
+        </v-container>
+
+        <v-container fluid class="pa-0">
+             <v-row justify="center" align="center" class="py-3" :class="this.$vuetify.theme.dark == true?'black':''">
+                <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 card-top-margin" v-if="CoreTeamPrevious.length>0"  >
+                  <CoreTeam :data="CoreTeamPrevious"/>
+                </v-col>
+                <v-col v-if="loader" md="12" lg="10" xs="12" class="pt-3 card-top-margin"  >
+                  <v-container fluid class="">
+                      <v-row >
+                          <v-col md="2" lg="2" sm="3" cols="6" v-for="i in 6" :key="i">
+                                <v-sheet
+                                    :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+                                    class=""
+                                >
+                                    <v-skeleton-loader
+                                    class="mx-auto"
+                                    max-width="300"
+                                    type="card"
+                                    ></v-skeleton-loader>
+                                </v-sheet>
+                            </v-col>
+                      </v-row>
+                  </v-container>
+                </v-col>
+             </v-row>
+        </v-container>
         <v-container fluid class="pa-0" v-if="OrganizingTeam.length>0">
              <v-row justify="center" align="center" class="py-3">
                 <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 ">
@@ -43,7 +108,7 @@
         </v-container>
         <v-container fluid class="pa-0">
              <v-row justify="center" align="center" class="py-3" :class="this.$vuetify.theme.dark == true?'black':''">
-               <v-col v-if="!loader && notFound && OrganizingTeam.length <=0 && CoreTeam.length<=0" md="12" lg="12" sm="12" cols="12" class="text-center">
+               <v-col v-if="!loader && notFound && OrganizingTeam.length <=0 && CoreTeamCurrent.length<=0" md="12" lg="12" sm="12" cols="12" class="text-center">
                 <v-img
                   :src="require('@/assets/img/svg/DataNotFound.svg')"
                   :lazy-src="require('@/assets/img/svg/DataNotFound.svg')"
@@ -78,13 +143,19 @@ export default {
     data:() =>({
       loader:true,
       OrganizingTeam:[],
-      CoreTeam:[],
+      CoreTeamCurrent:[],
+      CoreTeamPrevious:[],
       Volunteers:[],
+      Leads: [],
       notFound:false,
-      ErrorMsg:''
+      ErrorMsg:'',
+      current: {title:"Current Team"},
+      previous: {title:"Previous Team"},
+      lead:{title: "Leads"}
     }),
     mounted(){
-        this.getAllTeamMembers()
+        this.getAllTeamMembers();
+        console.log(this.CoreTeamCurrent);
     },
     methods:{
         getAllTeamMembers(){
@@ -92,7 +163,9 @@ export default {
           service.getTeam().then(res=>{
             if(res.success==true){
               this.OrganizingTeam = res.data.filter(res=>res.role=='Organizing Team' && res.visible )
-              this.CoreTeam = res.data.filter(res=>res.role=='Core Team' && res.visible )
+              this.CoreTeamCurrent = res.data.filter(res=>res.role=='Core Team' && res.visible && res.active && res.designation !== "Lead")
+              this.Leads = res.data.filter(res=>res.role=='Core Team' && res.visible  && res.designation === "Lead")
+              this.CoreTeamPrevious = res.data.filter(res=>res.role=='Core Team' && res.visible && !res.active)
               this.Volunteers = res.data.filter(res=>res.role=='Volunteer' && res.visible )
               this.loader = false
               this.notFound = false
