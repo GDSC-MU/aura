@@ -111,7 +111,7 @@ import socialMediaDetails from '@/components/common/SocialInfo'
     position: relative;
     z-index: 2;
     border: solid 1px #dfdfdf;
-    position: absolute;
+    position: absolute !important;
     top: 50%;
     transform: translateY(-50%);
     left: 30px;
@@ -120,7 +120,7 @@ import socialMediaDetails from '@/components/common/SocialInfo'
     position: absolute;
     right: 0px;
     height: 100%;
-    width: 150px;
+    width: 200px;
     display: flex;
     justify-content: end;
     align-items: center;

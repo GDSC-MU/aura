@@ -74,7 +74,7 @@
              </v-row>
         </v-container>
 
-        <v-container fluid class="pa-0">
+        <v-container fluid class="pa-0 add-margin-bottom">
              <v-row justify="center" align="center" class="py-3" :class="this.$vuetify.theme.dark == true?'black':''">
                 <v-col md="12" lg="10" sm="11" xs="12" class="pt-3 card-top-margin" v-if="CoreTeamPrevious.length>0"  >
                   <CoreTeam :data="CoreTeamPrevious"/>
@@ -187,6 +187,9 @@ export default {
 <style scoped>
   .darkbg{
     /* background: #1F1A24 */
+  }
+  .add-margin-bottom {
+    margin-bottom: 40px !important;
   }
   @media screen and (min-width: 600px) {
     .card-top-margin {

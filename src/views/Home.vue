@@ -41,7 +41,7 @@
       </v-row>
     </v-container>
 
-     <v-container fluid class="pa-0 py-2 " >
+     <v-container fluid class="pa-0 py-2 delete-website-creator" >
       <v-row justify="center" align="center">
         <v-col md="12" lg="10" xs="12" class="py-0">
           <partners />
@@ -108,4 +108,5 @@ export default {
       border:1px solid #212121;
       border-radius:5px
   }
+
 </style>
