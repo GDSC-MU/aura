@@ -162,11 +162,11 @@ export default {
           this.loader = true
           service.getTeam().then(res=>{
             if(res.success==true){
-              this.OrganizingTeam = res.data.filter(res=>res.role=='Organizing Team' && res.visible )
-              this.CoreTeamCurrent = res.data.filter(res=>res.role=='Core Team' && res.visible && res.active && res.designation !== "Lead")
-              this.Leads = res.data.filter(res=>res.role=='Core Team' && res.visible  && res.designation === "Lead")
-              this.CoreTeamPrevious = res.data.filter(res=>res.role=='Core Team' && res.visible && !res.active)
-              this.Volunteers = res.data.filter(res=>res.role=='Volunteer' && res.visible )
+              this.OrganizingTeam = res.data.filter(res=>res.role=='Organizing Team' && res.visible );
+              this.CoreTeamCurrent = res.data.filter(res=>res.role=='Core Team' && res.visible && res.active && !res.designation.toLowerCase().includes("lead"));
+              this.Leads = res.data.filter(res=>res.role=='Core Team' && res.visible  && res.designation.toLowerCase().includes("lead"));
+              this.CoreTeamPrevious = res.data.filter(res=>res.role=='Core Team' && res.visible && !res.active && !res.designation.toLowerCase().includes("lead"));
+              this.Volunteers = res.data.filter(res=>res.role=='Volunteer' && res.visible );
               this.loader = false
               this.notFound = false
             }else{
