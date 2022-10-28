@@ -10,6 +10,7 @@ import './style.css'
 
 
 
+
 Vue.config.productionTip = false
 Vue.mixin(generalFunctions); 
 new Vue({

@@ -43,6 +43,15 @@ export default new Vuex.Store({
         },
       },
       {
+        text: 'Plans',
+        to: '/plans',
+        icon: 'mdi-account-settings',
+        meta: {
+          showToolbar: true,
+          showBottomNav: true
+        },
+      },
+      {
         text: 'Speakers',
         to: '/speakers',
         icon: 'mdi-assistant',
